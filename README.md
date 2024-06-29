@@ -13,6 +13,18 @@ Chain Reaction is a game where players take turns placing their colored balls on
 - Chain reaction explosions handled using BFS algorithm.
 - Clear player indicators and game status display.
 
+Certainly! Here's the specific section highlighting the BFS algorithm for the Chain Reaction game:
+
+---
+
+## BFS Algorithm
+The explosion mechanism in Chain Reaction is powered by the Breadth-First Search (BFS) algorithm:
+
+- **Initialization**: Start BFS from a cell that has exceeded its ball limit.
+- **Queue-based Approach**: Use a queue to manage cells that need processing.
+- **Process Explosion**: For each cell processed, distribute its balls to adjacent cells and potentially trigger further explosions.
+- **Efficiency**: BFS ensures that explosions are handled level by level, simulating the chain reaction in a structured manner.
+---
 ## Setup Instructions
 To run the game locally, follow these steps:
 
