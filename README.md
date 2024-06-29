@@ -10,13 +10,8 @@ Chain Reaction is a game where players take turns placing their colored balls on
 ## Features
 - Two-player turn-based gameplay.
 - Randomly assigned player colors.
-- Ball placement rules:
-  - 1 ball in corners.
-  - 2 balls on edges (excluding corners).
-  - 3 balls in center cells.
 - Chain reaction explosions handled using BFS algorithm.
 - Clear player indicators and game status display.
-- Responsive design for desktop and mobile browsers.
 
 ## Setup Instructions
 To run the game locally, follow these steps:
@@ -35,6 +30,10 @@ To run the game locally, follow these steps:
 The game follows these basic rules:
 - Players take turns placing their colored balls on any empty cell on the grid.
 - Each cell has a limit to how many balls it can hold.
+- cell limit rules:
+  - 1 ball in corners.
+  - 2 balls on edges (excluding corners).
+  - 3 balls in center cells.
 - When a cell exceeds its limit, it explodes:
   - Distributing its balls to adjacent cells.
   - Converting balls of the opposing player in adjacent cells.
