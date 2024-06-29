@@ -18,9 +18,6 @@ Chain Reaction is a game where players take turns placing their colored balls on
 - Clear player indicators and game status display.
 - Responsive design for desktop and mobile browsers.
 
-## Demo
-You can try out the game [here](#) (Insert live demo link).
-
 ## Setup Instructions
 To run the game locally, follow these steps:
 
