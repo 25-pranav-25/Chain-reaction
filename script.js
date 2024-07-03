@@ -4,34 +4,41 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPlayer = 1;
     let gameStarted = false;
     let moveCount = 0;
-    let player1Color, player2Color;
+    let numPlayers = 2; // default to 2 players
+    let activePlayers = []; // array to track active players
+    let playerColors = []; // array to store player colors
 
     const gameBoard = document.getElementById("game-board");
-    const player1 = document.getElementById("player1");
-    const player2 = document.getElementById("player2");
+    const playerIndicators = document.getElementById("player-indicators");
+    const playerSelect = document.getElementById("player-count");
     const startButton = document.getElementById("start-button");
     const winnerMessage = document.getElementById("winner-message");
 
     startButton.addEventListener("click", startGame);
 
     function startGame() {
+        numPlayers = parseInt(playerSelect.value);
         gameStarted = true;
         moveCount = 0;
+        currentPlayer = 1;
+        activePlayers = Array.from({ length: numPlayers }, (_, i) => i + 1);
         initializeColors();
         initializeBoard();
-        updateBoard();
+        createPlayerIndicators();
         updatePlayerIndicator();
         winnerMessage.textContent = '';
     }
 
     function initializeColors() {
-        player1Color = getRandomColor();
-        player2Color = getRandomColor();
-        while (player1Color === player2Color) {
-            player2Color = getRandomColor();
+        // Initialize player colors array
+        playerColors = [];
+        for (let i = 0; i < numPlayers; i++) {
+            let color;
+            do {
+                color = getRandomColor();
+            } while (playerColors.includes(color));
+            playerColors.push(color);
         }
-        player1.style.backgroundColor = player1Color;
-        player2.style.backgroundColor = player2Color;
     }
 
     function getRandomColor() {
@@ -59,6 +66,18 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function createPlayerIndicators() {
+        playerIndicators.innerHTML = '';
+        for (let i = 1; i <= numPlayers; i++) {
+            const playerDiv = document.createElement("div");
+            playerDiv.id = `player${i}`;
+            playerDiv.className = "player";
+            playerDiv.style.backgroundColor = playerColors[i - 1];
+            playerDiv.textContent = `Player ${i}`;
+            playerIndicators.appendChild(playerDiv);
+        }
+    }
+
     function handleCellClick(row, col) {
         if (!gameStarted) return;
         const cell = board[row][col];
@@ -69,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateBoard();
         checkExplosions(row, col);
         switchPlayer();
-        if (moveCount > 2) {
+        if (moveCount > numPlayers) {
             checkWinCondition();
         }
     }
@@ -86,19 +105,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getPlayerColor(player) {
-        if (player === 1) return player1Color;
-        if (player === 2) return player2Color;
-        return "#fff";
+        return player === 0 ? "#fff" : playerColors[player - 1];
     }
 
     function switchPlayer() {
-        currentPlayer = currentPlayer === 1 ? 2 : 1;
+        currentPlayer = getNextActivePlayer(currentPlayer);
         updatePlayerIndicator();
     }
 
+    function getNextActivePlayer(currentPlayer) {
+        let currentIndex = activePlayers.indexOf(currentPlayer);
+        currentIndex = (currentIndex + 1) % activePlayers.length;
+        return activePlayers[currentIndex];
+    }
+
     function updatePlayerIndicator() {
-        player1.classList.toggle("active", currentPlayer === 1 && gameStarted);
-        player2.classList.toggle("active", currentPlayer === 2 && gameStarted);
+        for (let i = 1; i <= numPlayers; i++) {
+            const playerElem = document.getElementById(`player${i}`);
+            if (!activePlayers.includes(i)) {
+                playerElem.classList.add("inactive");
+            } else {
+                playerElem.classList.remove("inactive");
+            }
+            playerElem.classList.toggle("active", currentPlayer === i && gameStarted);
+        }
     }
 
     function checkExplosions(startRow, startCol) {
@@ -149,19 +179,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkWinCondition() {
-        let player1Orbs = 0;
-        let player2Orbs = 0;
+        const playerOrbs = Array(numPlayers).fill(0);
         for (let row = 0; row < boardSize; row++) {
             for (let col = 0; col < boardSize; col++) {
-                if (board[row][col].player === 1) player1Orbs++;
-                if (board[row][col].player === 2) player2Orbs++;
+                const player = board[row][col].player;
+                if (player > 0) {
+                    playerOrbs[player - 1]++;
+                }
             }
         }
-        if (player1Orbs === 0 || player2Orbs === 0) {
-            const winner = player1Orbs === 0 ? 2 : 1;
+
+        activePlayers = activePlayers.filter(player => playerOrbs[player - 1] > 0);
+
+        if (activePlayers.length <= 1) {
+            const winner = activePlayers[0];
             winnerMessage.textContent = `Player ${winner} wins! Press "Start Game" to Restart the game.`;
             gameStarted = false;
             updatePlayerIndicator();
+        } else {
+            for (let i = 1; i <= numPlayers; i++) {
+                const playerElem = document.getElementById(`player${i}`);
+                playerElem.classList.toggle("inactive", !activePlayers.includes(i));
+            }
         }
     }
 });

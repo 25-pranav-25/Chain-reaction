@@ -10,10 +10,19 @@
     <div class="container">
         <h1>Chain Reaction</h1>
         <div class="header">
-            <div id="player1" class="player">Player 1</div>
+            <div id="player-select">
+                <label for="player-count">Select number of players:</label>
+                <select id="player-count">
+                    <option value="2">2 Players</option>
+                    <option value="3">3 Players</option>
+                    <option value="4">4 Players</option>
+                    <option value="5">5 Players</option>
+                    <option value="6">6 Players</option>
+                </select>
+            </div>
             <button id="start-button">Start Game</button>
-            <div id="player2" class="player">Player 2</div>
         </div>
+        <div id="player-indicators" class="player-indicators"></div>
         <div class="main-content">
             <div id="game-board"></div>
             <div class="rules-box">
@@ -27,9 +36,11 @@
                     <li>The game ends when one player controls all the balls on the board.</li>
                     <li>Player colors are assigned randomly at the start of each game.</li>
                     <li>The first move of each player cannot end the game.</li>
+                    <li>Except for the first move, if any player has no cells occupied, they are ruled out of the game.</li>
                 </ul>
             </div>
         </div>
+        <div id="messages" class="messages"></div>
         <div id="winner-message" class="winner-message"></div>
     </div>
     <script src="script.js"></script>

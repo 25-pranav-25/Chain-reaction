@@ -26,8 +26,16 @@ h1 {
     margin-bottom: 20px;
 }
 
+.player-indicators {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 20px;
+}
+
 .player {
-    width: 100px;
+    width: 80px;
     text-align: center;
     padding: 10px;
     border-radius: 5px;
@@ -69,12 +77,19 @@ button {
     cursor: pointer;
 }
 
+.messages {
+    margin-top: 20px;
+    font-size: 1em;
+    color: #d9534f;
+}
+
 .winner-message {
     margin-top: 20px;
     font-size: 1.2em;
     font-weight: bold;
     color: #333;
 }
+
 
 .rules-box {
     width: 550px;
@@ -91,4 +106,8 @@ button {
 .rules-box ul {
     list-style-type: disc;
     padding-left: 20px;
+}
+.player.inactive {
+    text-decoration: line-through;
+    opacity: 0.5; /* Adjust opacity to indicate inactive state */
 }
