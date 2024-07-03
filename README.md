@@ -1,7 +1,7 @@
 
 # Chain Reaction Game
 
-Welcome to Chain Reaction, a 2 player web-based game where players strategically place colored balls on a grid, aiming to control all balls on the board to win.
+Welcome to Chain Reaction, a multi-player web-based game where players strategically place colored balls on a grid, aiming to control all balls on the board to win.
 
 
 ## Overview
